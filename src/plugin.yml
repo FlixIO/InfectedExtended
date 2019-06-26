@@ -1,0 +1,11 @@
+name: InfectedExtension
+version: 1.0
+author: Flix.IO
+main: io.flixion.infected.PL
+description: An extension to McInfected, a private plugin request
+softdepend: [McInfected]
+
+commands:
+  infected:
+    usage: /<command>
+    description: Plugin tree command
