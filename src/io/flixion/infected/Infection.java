@@ -63,9 +63,8 @@ public class Infection implements Listener, CommandExecutor {
 	}
 	
 	private void initInTransitionTask(Player p) {
-		p.sendMessage(PL.cc("&a&oYou have been bitten... Use a syringe to stop the infection..."));
-		p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, 15 * 20, 1, true, true), true);
-		p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, 15 * 20, 1, true, true), true);
+		p.addPotionEffect(new PotionEffect(PotionEffectType.SLOW, Integer.MAX_VALUE, 1, true, true), true);
+		p.addPotionEffect(new PotionEffect(PotionEffectType.BLINDNESS, Integer.MAX_VALUE, 1, true, true), true);
 		BukkitTask t = Bukkit.getScheduler().runTaskTimer(PL.getPL(), new Runnable() {
 			
 			@Override
@@ -84,6 +83,7 @@ public class Infection implements Listener, CommandExecutor {
 		p.removePotionEffect(PotionEffectType.BLINDNESS);
 		p.sendMessage(PL.cc("&a&oYou have been cured!"));
 		inTransition.get(p.getUniqueId()).cancel();
+		inTransition.remove(p.getUniqueId());
 	}
 
 	@Override
