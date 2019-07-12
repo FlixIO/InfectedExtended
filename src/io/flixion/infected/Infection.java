@@ -20,9 +20,11 @@ import org.bukkit.scheduler.BukkitTask;
 import com.bimmr.mcinfected.McInfected;
 import com.bimmr.mcinfected.Events.McInfectedGameEndEvent;
 import com.bimmr.mcinfected.Events.McInfectedPlayerDeathEvent;
+import com.bimmr.mcinfected.Events.McInfectedPlayerInfectEvent;
 import com.bimmr.mcinfected.Events.McInfectedPlayerLeaveEvent;
 import com.bimmr.mcinfected.IPlayers.IPlayer;
 import com.bimmr.mcinfected.IPlayers.IPlayer.Team;
+import com.bimmr.mcinfected.Listeners.DamageInfo.DamageType;
 
 public class Infection implements Listener, CommandExecutor {
 	private Random rng = new Random();
@@ -52,6 +54,15 @@ public class Infection implements Listener, CommandExecutor {
 	public void onDeath(McInfectedPlayerDeathEvent e) {
 		if (inTransition.containsKey(e.getKilled().getPlayer().getUniqueId())) {
 			curePlayer(e.getKilled().getPlayer());
+			e.setCancelled(true);
+			e.getKilled().infect(DamageType.Other);
+		}
+	}
+	
+	@EventHandler
+	public void detectInfect(McInfectedPlayerInfectEvent e) {
+		if (inTransition.containsKey(e.getIPlayer().getPlayer().getUniqueId())) {
+			curePlayer(e.getIPlayer().getPlayer());
 		}
 	}
 	
